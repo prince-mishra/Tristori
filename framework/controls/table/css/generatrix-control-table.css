@@ -1,0 +1,17 @@
+.generatrix-control-table-table { }
+.generatrix-control-table-table th { background-color: #424242; color: #FFFFFF; font-size: 12px;}
+.generatrix-control-table-table td { border-bottom: 1px dotted #CCCCCC; padding-right:15px; padding-top:10px; padding-bottom:10px; line-height:14px; }
+
+.generatrix-control-table-edit-delete a { font-size: 11px; }
+.generatrix-control-table-link img { border: 1px dashed #CCCCCC; padding: 2px; }
+
+.paginate_disabled_previous, .paginate_enabled_previous, .paginate_disabled_next, .paginate_enabled_next { height: 19px; width: 19px; margin-left: 3px; float: left; }
+.paginate_disabled_previous { background-image: url('../../../../public/images/back_disabled.jpg'); }
+.paginate_enabled_previous { background-image: url('../../../../public/images/back_enabled.jpg'); }
+.paginate_disabled_next { background-image: url('../../../../public/images/forward_disabled.jpg'); }
+.paginate_enabled_next { background-image: url('../../../../public/images/forward_enabled.jpg'); }
+
+.dataTables_info { float: left; }
+.dataTables_paginate { float: right; }
+.dataTables_length { float: left; }
+.dataTables_filter { float: right; }

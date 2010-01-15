@@ -1,0 +1,76 @@
+body { font-family: "Trebuchet MS", Arial, Verdana, sans-serif; background-color: #F7F7F7; font-size: 13px; }
+li ul, li ol { margin: 0pt 0.5em; }
+#cke_content {
+	width: auto !important;
+}
+#cke_contents_content {
+	height: 400px !important;;
+}
+.update-success { color: #FFF; background: #008800; }
+.dark { background-color: #424242; }
+.generatrix-side-ul { margin: 0px 18px 2px 9px; width: 140px; }
+.generatrix-side-ul ul li a:hover { 
+	padding: 0px;
+	background: #424242;
+	color: #FFFFFF;
+}
+.g-admin-sidebar-header { padding: 4px 10px 4px 5px; background: #424242;}
+.g-admin-sidebar-header a { color: #FFF; text-decoration: none; color: #FFFFFF; }
+.g-admin-logo { background: url('../images/adminlogo.png') no-repeat; height: 87px; width: 140px; margin: 10px 0px; }
+.markettools-textarea { width: 500px; height: 300px; } 
+
+.generatrix-admin-form { }
+.generatrix-admin-form a { font-weight: bold; color: #000000; }
+.generatrix-admin-label { margin: 4px 0px; padding: 4px 0px; }
+.generatrix-admin-input-text { width: 180px; padding: 4px; margin: 5px 0px; }
+.generatrix-admin-input-checkbox { padding: 4px; margin: 5px 0px; }
+.generatrix-admin-input-submit { border: 1px solid #424242; background-color: #646464; color: #FFFFFF; padding: 3px 8px; margin: 2px 4px 0px 0px; }
+.generatrix-admin-textarea-label { margin: 4px 0px 104px; padding: 4px 0px; }
+.generatrix-admin-input-textarea { width: 180px; padding: 4px; margin: 5px 0px; height: 100px; }
+
+.generatrix-admin-sidebar { }
+.generatrix-admin-sidebar ul { list-style: none; }
+.generatrix-admin-sidebar ul li { font-size: 15px; float: left; }
+.generatrix-admin-sidebar ul li ul li a { text-decoration: none; color: #000000; }
+.generatrix-admin-sidebar ul li ul li { font-size: 11px; text-decoration: underline; }
+
+.generatrix-admin-small { font-size: 13px; }
+a.generatrix-admin-small-selected {
+	background:#424242 none repeat scroll 0 0;
+	color:#FFFFFF;
+	padding: 0px 10px;
+}
+
+.g-title-1 { background-color: #95CBE9; padding: 5px; margin: 5px 0px; font-size: 17px; }
+.g-title-2 { background-color: #AFD775; padding: 5px; margin: 5px 0px; font-size: 17px; }
+
+.g-body-bold { font-size: 15px; line-height: 25px; }
+.g-options { font-size: 12px; }
+.g-href { text-decoration: underline; font-size: 12px; }
+.g-form-submit { padding: 2px 4px; margin: 3px 0px; }
+.g-cancel { font-weight: bold; text-decoration: underline; }
+.gDropDown { margin: 0px 0px 5px; padding: 4px; width: 180px; }
+.gDropDownEmpty { background-color: #CCCCCC; }
+
+.uploaded-image { border: 1px dashed #CCCCCC; padding: 1px; }
+#ui-datepicker-div { background-color: #EEEEEE; }
+#ui-datepicker-div th, td { margin : 0px; padding: 0px; }
+.address_availiability { border : 1px solid #CCCCCC; background-color: #00ff00; padding:5px; margin:5px; }
+#admin-subcat-ul li {
+	list-style: none;
+	margin: 10px 0px;
+}
+
+#admin-explore-ul li {
+	list-style: none;
+	margin: 10px 0px;
+}
+
+.rotating-img {
+	background: url('../images/loading.gif');
+	width: 16px;
+	height: 16px;
+	margin: 0 0 0 30px;
+}
+.odd{background-color: #F7F7F7;} 
+.even{background-color: #F1F4F7;} 

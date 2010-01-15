@@ -1,0 +1,37 @@
+{
+	"application-root"		: "http://localhost/generatrix/",
+
+	"application-name"		:	"Generatrix",
+	"application-email"		: "admin@site.com",
+	"admin-email"					: "admin@site.com",
+	"time-zone"						: "Asia/Calcutta",
+	"min-php-version"			: "5.2.0",
+
+	"default-controller"	:	"generatrix",
+	"dtd-type"						: "transitional",
+	"debug-values"				: "true",
+	"debug-queries"				: "true",
+	"use-catch-all"				:	"false",
+
+	"database-host"				:	"localhost",
+	"database-user"				:	"root",
+	"database-pass"				: "",
+	"database-name"				:	"generatrix",
+	"database-prefix"			: "gx_",
+
+	"cache-db"						: "true",
+	"cache-db-time"				: "5",
+	"cache-pages"					: "true",
+	"cache-pages-time"		: "5",
+
+	"js-jquery"						: "1.3.2",
+	"js-jqueryui"					: "",
+	"js-prototype"				: "",
+	"js-scriptaculous"		: "",
+	"js-mootools"					: "",
+	"js-dojo"							: "",
+	"js-swfobject"				: "",
+	"js-yui"							: "",
+	"js-ext-core"					: ""
+
+}

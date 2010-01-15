@@ -1,0 +1,30 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+		# Run .phpx as .php files
+		AddType application/x-httpd-php .phpx
+
+		# Redirect /app/settings/config.json to Generatrix
+		RewriteCond %{REQUEST_FILENAME} config.json$
+		RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+		# Redirect /app/settings/config.json.defaults to Generatrix
+		RewriteCond %{REQUEST_FILENAME} config.json.defaults$
+		RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+		# Redirect *.php to Generatrix
+		RewriteCond %{REQUEST_FILENAME} php$
+		RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+		# Redirect ./generatrix to Generatrix
+		RewriteCond %{REQUEST_FILENAME} generatrix$
+		RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+		# If file requested in not a file or directory, pass it to Generatrix
+		# RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
+# Zip files before sending them
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/json application/json application/javascript

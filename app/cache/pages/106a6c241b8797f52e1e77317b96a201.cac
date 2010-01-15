@@ -1,0 +1,21 @@
+<html >
+<head >
+<title>Generatrix</title>
+<link media="screen, projection" type="text/css" href="/generatrix/public/style/generatrix.css" rel="stylesheet" /><link media='screen' type='text/css' href='/generatrix/public/style/generated.phpx' rel='stylesheet' />
+					<!--[if IE]>
+						<link rel="stylesheet" href="/generatrix/public/style/generatrix-ie.css" type="text/css" media="screen, projection">
+					<![endif]-->
+				
+
+				<script type='text/javascript'>
+					var Generatrix = {
+						basepath: '/generatrix',
+						href: function(path) { return this.basepath + path; },
+						loading: function(where) { $(where).html("<img src='" + this.href('/images/gears.gif') + "' />"); },
+						timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
+						rand: function(max) { return Math.ceil(Math.random() * max); }
+					};
+				</script>
+			</head>
+<body />
+</html>

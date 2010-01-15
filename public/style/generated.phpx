@@ -1,0 +1,42 @@
+<?php	
+
+	header('Content-Type: text/css');
+
+	function write($line) {
+		echo $line . " ";
+	}
+
+	$total_width = 950;
+	$w = $total_width / 23.75;
+	$m = $w * 0.25;
+
+	// Span & Appends & Prepends
+	// .span-24 is in the main file because it needs margin 0 as well
+	$width_increment = 1;
+	for($width = 0; $width < 23; $width = $width + $width_increment) {
+		write('.span-' . ($width + 1) . ' { width: ' . (($w * ($width + 1)) - $m) . 'px; }');
+		write('.append-' . ($width + 1) . ' { padding-right: ' . ($w * ($width + 1)) . 'px; }');
+		write('.prepend-' . ($width + 1) . ' { padding-left: ' . ($w * ($width + 1)) . 'px; }');
+		write('.pull-' . ($width + 1) . ' { margin-left: -' . ($w * ($width + 1)) . 'px; }');
+		write('.push-' . ($width + 1) . ' { margin: 0pt -' . ($w * ($width + 1)) . 'px 1.5em ' . ($w * ($width + 1)) . 'px;}');
+	}
+
+	// Input and Textarea
+	$input_increment = 1;
+	for($width = 0; $width < 24; $width = $width + $input_increment) {
+		write('input.span-' . ($width + 1) . ', textarea.span-' . ($width + 1) . ' { width: ' . (($w * $width) + 18). 'px !important; }');
+	}
+
+	// Height
+	$height_increment = 1;
+	for($height = 0; $height < 15; $height = $height + $height_increment) {
+		write('.height-' . $height . ' { height: ' . $height . 'em; }');
+	}
+
+	// Opacity
+	$opacity_increment = 5;
+	for($opacity = 0; $opacity < 100; $opacity = $opacity + $opacity_increment) {
+		write('.opacity-' . $opacity . ' { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=' . $opacity . ')"; filter: alpha(opacity=' . $opacity . '); -moz-opacity: ' . ($opacity / 100) . '; -webkit-opacity: ' . ($opacity / 100) . '; }');
+	}
+
+?>
