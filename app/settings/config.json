@@ -1,22 +1,22 @@
 {
-	"application-root"		: "http://localhost:8080/generatrix/",
+	"application-root"		: "http://localhost:8080/Generatrix/",
 
-	"application-name"		:	"Generatrix",
+	"application-name"		: "Generatrix",
 	"application-email"		: "admin@site.com",
 	"admin-email"					: "admin@site.com",
 	"time-zone"						: "Asia/Calcutta",
 	"min-php-version"			: "5.2.0",
 
-	"default-controller"	:	"home",
+	"default-controller"	: "home",
 	"dtd-type"						: "transitional",
 	"debug-values"				: "true",
 	"debug-queries"				: "false",
-	"use-catch-all"				:	"false",
+	"use-catch-all"				: "false",
 
-	"database-host"				:	"localhost",
-	"database-user"				:	"root",
+	"database-host"				: "localhost",
+	"database-user"				: "root",
 	"database-pass"				: "root",
-	"database-name"				:	"careervidya",
+	"database-name"				: "careervidya",
 	"database-prefix"			: "cv_",
 
 	"cache-db"						: "false",
