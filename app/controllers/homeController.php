@@ -36,7 +36,17 @@
 	class homeController extends Controller {
 
 		public function base() {
-
+			display('You see this message when you call display()');
+			display_error('You see this message when you call display_error()');
+			$sample_array = array(
+				'name' => 'Generatrix',
+				'time' => '25 Feb 2010',
+				'text' => array(
+					'language' => 'PHP5'
+				),
+				'who' => 'Developers'
+			);
+			display($sample_array);
 		}
 
 	}
