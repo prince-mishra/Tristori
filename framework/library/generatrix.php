@@ -173,17 +173,17 @@
 								$this->file->write($file_name, $final_page);
 							}
 						} else {
-							display_error('The method <strong>"'. $controller_method . '"</strong> in class <strong>"'. $view_class .'"</strong> does not exist');
+							display_404('The method <strong>"'. $controller_method . '"</strong> in class <strong>"'. $view_class .'"</strong> does not exist');
 						}
 					} else {
-						display_error('The class <strong>"'. $view_class . '"</strong> does not exist');
+						display_404('The class <strong>"'. $view_class . '"</strong> does not exist');
 					}
 				} else {
-					display_error('The method <strong>"'. $controller_method . '"</strong> in class <strong>"'. $controller_class .'"</strong> does not exist');
+					display_404('The method <strong>"'. $controller_method . '"</strong> in class <strong>"'. $controller_class .'"</strong> does not exist');
 				}
 			} else {
 				//if(!$this->handleCatchAllRequest())
-					display_error('The class <strong>"' . $controller_class .'"</strong> does not exist');
+					display_404('The class <strong>"' . $controller_class .'"</strong> does not exist');
 			}
 		}
 
@@ -1696,6 +1696,11 @@ Welcome to the Generatrix help. You can use any of the following options
 	function display_warning($message, $file = '', $line = '') { display_message($message, $file, $line, 'warning'); } 
 	function display_error($message, $file = '', $line = '') { display_message($message, $file, $line, 'error'); } 
 	function display_system($message, $file = '', $line = '') { display_message('SYSTEM: ' . $message, $file, $line, 'system'); }
+	function display_404 ($message, $file = '', $line = '') 
+	{ 
+		header("HTTP/1.1 404 Not Found");
+		display_message($message, $file, $line, 'error');  
+	}
 
 	function add_file_and_line($file, $line) {
 		$return = (($file != '') || ($line != '')) ? '<br />In file <strong>'. str_replace(DISK_ROOT, '', $file) . '</strong> on line <strong>' . $line . '</strong>' : '';
