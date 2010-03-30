@@ -259,14 +259,18 @@
 				// If cli is enabled, we use the format site.com/index.php controller function
 				// 		Hence we need to get the values from the arguments as $argv[0], $argv[1] etc
 				if($this->cli->isEnabled()) {
-					if($this->cli->getValue('controller') == "")
+					if($this->cli->getValue('controller') == "") {
+						header('HTTP/1.1 301 Moved Permanently');
 						location('/' . DEFAULT_CONTROLLER);
+					}
 					$details['controller'] = $this->cli->getValue('controller') == "" ? DEFAULT_CONTROLLER : $this->cli->getValue('controller');
 					$details['method'] = $this->cli->getValue('method') == "" ? 'base' : $this->cli->getValue('method');
 				} else {
 					// If this request is coming from the browser, we need to get the value from url (obtained from .htaccess)
-					if($this->request->getValue('controller') == "")
+					if($this->request->getValue('controller') == "") {
+						header('HTTP/1.1 301 Moved Permanently');
 						location('/' . DEFAULT_CONTROLLER);
+					}
 					$details['controller'] = $this->request->getValue('controller') == "" ? DEFAULT_CONTROLLER : $this->request->getValue('controller');
 					$details['method'] = $this->request->getValue('method') == "" ? 'base' : $this->request->getValue('method');
 				}
@@ -592,7 +596,10 @@
 		// Add the GOOGLE Ajax Libraries
 		private function addGoogleAjaxLibraries() {
 			$content = '';
-			//$content = '<script type="text/javascript" src="' . href('/public/javascript/jquery-1.3.2.min.js') . '"></script>';	
+			if(JS_JQUERY != '') {
+				$content .=  '<script type="text/javascript" src="' . href('/public/javascript/jquery-' . JS_JQUERY . '.min.js') . '"></script>';	
+			}
+
 			$content .= "
 				<script type='text/javascript'>
 					var Generatrix = {
@@ -607,10 +614,15 @@
 			$this->getHead()->appendContent($content);
 			//return;
 
+			$loadGoogle = false;
 			$content = '<script type="text/javascript" src="http://www.google.com/jsapi"></script>';
 			$content .= '<script type="text/javascript">';
 
-			if(JS_JQUERY != '') $content .= 'google.load("jquery", "' . JS_JQUERY . '");';
+			if( (JS_JQUERYUI != '') || (JS_PROTOTYPE != '') || (JS_SCRIPTACULOUS != '') || (JS_MOOTOOLS != '') || (JS_DOJO != '') || (JS_SWFOBJECT != '') || (JS_YUI != '') || (JS_EXT_CORE != '') ) {
+				$loadGoogle = true;
+			}
+
+			//if(JS_JQUERY != '') $content .= 'google.load("jquery", "' . JS_JQUERY . '");';
 			if(JS_JQUERYUI != '') $content .= 'google.load("jquery", "' . JS_JQUERYUI . '");';
 			if(JS_PROTOTYPE != '') $content .= 'google.load("jquery", "' . JS_PROTOTYPE . '");';
 			if(JS_SCRIPTACULOUS != '') $content .= 'google.load("jquery", "' . JS_SCRIPTACULOUS . '");';
@@ -621,7 +633,9 @@
 			if(JS_EXT_CORE != '') $content .= 'google.load("jquery", "' . JS_EXT_CORE . '");';
 
 			$content .= '</script>';
-			$this->getHead()->appendContent($content);
+			if($loadGoogle) {
+				$this->getHead()->appendContent($content);
+			}
 		}
 
 		// Add the libraries
@@ -699,12 +713,21 @@
 
 		private $file;
 
+		private $query;
+
 		public function __construct() {
 			// If the debugger is one, show the query time on the screen
 			$this->debug = false;
 			if(DEBUG_QUERIES)
 				$this->debug = true;
 			$this->file = new File();
+		}
+
+		public function getConnection() {
+			if(!$this->connection) {
+				$this->connect();
+			}
+			return $this->connection;
 		}
 
 		public function getInstance() {
@@ -734,7 +757,7 @@
 						return;
 					}
 					// Add this error to the errors array
-					$this->errors[] = $error;
+					$this->errors[] = $error . "<br /><br />\n\nYou ran the following query : " . $this->query;
 				}
 			} else {
 				// If this is a user defined error, just add it to the list if it is not null
@@ -857,6 +880,7 @@
 		}
 
 		public function query($sql) {
+			$this->query = $sql;
 			$this->errors = array();
 			// This is the public function
 			$this->checkQuery($sql);
@@ -941,7 +965,7 @@
 					$key_type = $this->columns[$key];
 					switch($key_type) {
 						case 'text':
-							$vals[] = $this->escapeString($value);
+							$vals[] = mysql_real_escape_string(htmlentities($value), $this->database->getConnection());
 							break;
 						case 'int':
 							$vals[] = is_numeric($value) ? $value : 0;
@@ -979,7 +1003,7 @@
 		public function update($columns, $condition = '') {
 			$updates = array();
 			foreach($columns as $key => $value) {
-				$updates[] = ' `' . $key . '` = "' . $value . '" ';
+				$updates[] = ' `' . $key . '` = "' . mysql_real_escape_string(htmlentities($value), $this->database->getConnection()) . '" ';
 			}
 			$sql = 'UPDATE ' . $this->name . ' SET ' . implode(', ', $updates) . ' ' . $condition;
 			return $this->database->query($sql);
@@ -1361,7 +1385,7 @@
 		}
 
 		// Sendmail function, use this to send outgoing emails
-		public function sendmail($to_name = '.', $to_email = '.', $from_name = '.', $from_email = '.', $subject, $body) {
+		public function sendmail($to_name = '.', $to_email = '.', $from_name = '.', $from_email = '.', $subject, $body, $altbody = '') {
 			if($to_name == '') $to_name = $this->application_name;
 			if($to_email == '') $to_email = $this->application_email;
 			if($from_name == '') $from_name = $this->application_name;
@@ -1380,6 +1404,7 @@
 
 				$this->mailer->Subject = $subject;
 				$this->mailer->Body = $body;
+				$this->mailer->AltBody = $altbody;
 
 				if(!$this->mailer->Send()) {
 					display_error("The email from " . $from_name. " (" . $from_email. ") to " . $to_name. " (" . $to_email. ") could not be sent. The mailer replied with the following error :: " . $this->mailer->ErrorInfo . ".<br />The contents of the email were as follows :<br /><b>" . $subject . "</b><br />" . $body . "");
@@ -1700,6 +1725,10 @@ Welcome to the Generatrix help. You can use any of the following options
 	{ 
 		header("HTTP/1.1 404 Not Found");
 		display_message($message, $file, $line, 'error');  
+	}
+
+	function sanitize($term) {
+		return preg_replace('/-+/', '-', trim(preg_replace('/[^a-zA-Z0-9]/', '-', trim($term) ) ) );
 	}
 
 	function add_file_and_line($file, $line) {

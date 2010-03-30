@@ -11,10 +11,10 @@
 	"dtd-type"						: "transitional",
 	"debug-values"					: "false",
 	"debug-queries"				: "false",
-	"use-catch-all"				:	"false",
+	"use-catch-all"				: "false",
 
-	"database-host"				:	"localhost",
-	"database-user"				:	"root",
+	"database-host"				: "localhost",
+	"database-user"				: "root",
 	"database-pass"				: "root",
 	"database-name"				:	"",
 	"database-prefix"				: "",
@@ -24,7 +24,7 @@
 	"cache-pages"					: "false",
 	"cache-pages-time"			: "5",
 
-	"js-jquery"						: "1.1.1",
+	"js-jquery"						: "1.4.2",
 	"js-jqueryui"					: "",
 	"js-prototype"					: "",
 	"js-scriptaculous"			: "",
@@ -33,5 +33,4 @@
 	"js-swfobject"					: "",
 	"js-yui"							: "",
 	"js-ext-core"					: ""
-
 }
