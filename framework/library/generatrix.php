@@ -347,6 +347,70 @@
 			$this->is_html = true;
 		}
 
+		public function getP1() {
+			$url = $this->getURL();
+			$p1 = isset($url[0]) ? mysql_real_escape_string($url[0], $this->getDb()->getConnection()) : false;
+			return $p1;
+		}
+
+		public function getP2() {
+			$url = $this->getURL();
+			$p2 = isset($url[1]) ? mysql_real_escape_string($url[1], $this->getDb()->getConnection()) : false;
+			return $p2;
+		}
+
+		public function getP3() {
+			$url = $this->getURL();
+			$p3 = isset($url[2]) ? mysql_real_escape_string($url[2], $this->getDb()->getConnection()) : false;
+			return $p3;
+		}
+
+		public function getP4() {
+			$url = $this->getURL();
+			$p4 = isset($url[3]) ? mysql_real_escape_string($url[3], $this->getDb()->getConnection()) : false;
+			return $p4;
+		}
+
+		public function getUploadedFile($tag, $where = '/app/cache/uploads/') {
+
+			$return = array('error' => false, 'path' => false, 'name' => false);
+
+			if(isset($_FILES[$tag]['name']) && ($_FILES[$tag]['name'] != '')) {
+				$image = $_FILES[$tag];
+
+				$orig_name = isset($image['name']) ? $image['name'] : false;
+				$type = isset($image['type']) ? $image['type'] : false;
+				$tmp_name = isset($image['tmp_name']) ? $image['tmp_name'] : false;
+				$error_value = isset($image['error']) ? $image['error'] : false;
+
+				if($error_value === false) {
+					$return['error'] = 'The file could not be uploaded because ' . $error_value;
+				} else {
+					$dots = explode('.', $orig_name);
+					if(count($dots) == 1) {
+						$return['error'] = 'Your filename does not have an extension';
+					} else {
+						$extension = $dots[count($dots) - 1];
+						unset($dots[count($dots) - 1]);
+						$orig_file_name = implode('.', $dots);
+						$new_name = sanitize(trim($orig_file_name)) . '_' . md5(time() . $orig_name) . '.' . $extension;
+						while(file_exists(path($where . $new_name))) {
+							$new_name = (time() % 100) . $new_name;
+						}
+
+						if(!move_uploaded_file($tmp_name, path($where . $new_name))) {
+							$return['error'] = 'The file could not be uploaded. Please try again.';
+						} else {
+							$return['path'] = $where . $new_name;
+							$return['name'] = $orig_name;
+						}
+					}
+				}
+			}
+
+			return $return;
+		}
+
 		// Set the view for this controller
 		public function setView($view_class) {
 			$this->view = $view_class;
@@ -398,25 +462,19 @@
 		}
 
 		public function getPostValue($tag_name) {
-			return $this->getGeneratrix()->getPost()->getValue($tag_name);
+			return checkArray($_POST, $tag_name) ? mysql_real_escape_string($_POST[$tag_name], $this->getDb()->getConnection()) : false;
 		}
 
 		public function getCookieValue($tag_name) {
-			return $this->getGeneratrix()->getCookie()->getValue($tag_name);
+			return checkArray($_COOKIE, $tag_name) ? mysql_real_escape_string($_COOKIE[$tag_name], $this->getDb()->getConnection()) : false;
 		}
 
 		public function getSessionValue($tag_name) {
-			if(checkArray($_SESSION, $tag_name)) {
-				return $_SESSION[$tag_name];
-			}
-			return false;
+			return checkArray($_SESSION, $tag_name) ? mysql_real_escape_string($_SESSION[$tag_name], $this->getDb()->getConnection()) : false;
 		}
 
     public function getGetValue($tag_name) {
-			if(checkArray($_GET, $tag_name)) {
-        return $_GET[$tag_name];
-      }
-      return false;
+			return checkArray($_GET, $tag_name) ? mysql_real_escape_string($_GET[$tag_name], $this->getDb()->getConnection()) : false;
     }
 
 		public function getURL() {
@@ -608,6 +666,7 @@
 						loading: function(where) { $(where).html(\"<img src='\" + this.href('/images/gears.gif') + \"' />\"); },
 						timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
 						rand: function(max) { return Math.ceil(Math.random() * max); }
+						trim: function(str) { str.replace(/^\s*/, \"\").replace(/\s*$/, \"\"); }
 					};
 				</script>
 			";
@@ -1003,7 +1062,7 @@
 		public function update($columns, $condition = '') {
 			$updates = array();
 			foreach($columns as $key => $value) {
-				$updates[] = ' `' . $key . '` = "' . mysql_real_escape_string(htmlentities($value), $this->database->getConnection()) . '" ';
+				$updates[] = ' `' . $key . '` = "' . mysql_real_escape_string(stripslashes(htmlentities($value)), $this->database->getConnection()) . '" ';
 			}
 			$sql = 'UPDATE ' . $this->name . ' SET ' . implode(', ', $updates) . ' ' . $condition;
 			return $this->database->query($sql);
@@ -1825,9 +1884,26 @@ Welcome to the Generatrix help. You can use any of the following options
 		}
 		return $relative_root . $path;
 	}
-	
+
+	// Calculate time in readable format
+	function getReadableTime($seconds) {
+		if($seconds < 60) {
+			return $seconds . " seconds";
+		}
+		$minutes = round($seconds / 60);
+		if($minutes < 60) {
+			return $minutes . " minutes";
+		}
+		$hours = round($minutes / 60);
+		if($hours < 24) {
+			return $hours . " hours";
+		}
+		$days = round($hours / 24);
+		return $days . " days";
+	}
+
 	// Use timthumb to create smaller iamges
-	function image($path, $width = '100', $height = '100') {
+	function image($path, $width = '', $height = '') {
 		if(check($path)) {
 			return href('/framework/external/timthumb/timthumb.php?src=' . href($path) . '&w=' . $width . '&h=' . $height);
 		} else {
