@@ -66,3 +66,16 @@ hr.space { background: #FFFFFF; color: #FFFFFF; }
 .visible { display: block; }
 .visible-inline { display: inline; }
 .center { text-align: center; }
+
+.form-input-text { padding: 4px; border: 1px solid #BA9B94; }
+.form-input-textarea { padding: 4px; border: 1px solid #BA9B94; }
+.form-input-submit { padding: 10px 14px; border: 1px solid #754030; font-weight: bold; margin: 10px 0px 0px; }
+.row { margin: 0px 0px 2px 0px; }
+.size-16 { width: 630px; }
+.label-16 { float: left; width: 169px; padding: 4px 0px; font-size: 14px; }
+.element-16 { float: right; text-align: left; width: 419px; }
+.input-16 { width: 400px; }
+.size-20 { width: 790px; }
+.label-20 { float: left; width: 224px; padding: 4px 0px; font-size: 14px; }
+.element-20 { float: right; text-align: left; width: 564px; }
+.input-20 { width: 550px; }
