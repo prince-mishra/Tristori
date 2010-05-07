@@ -44,7 +44,7 @@
 			$content = '';
 			//$content .= $this->loadSubView('header');
 			//$content .= $this->loadSubView('body');
-			//$contnet .= $this->loadSubView('footer');
+			//$content .= $this->loadSubView('footer');
 
 			$this->getBody()->appendContent($content);
 
