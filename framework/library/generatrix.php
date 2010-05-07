@@ -658,6 +658,11 @@
 				$content .=  '<script type="text/javascript" src="' . href('/public/javascript/jquery-' . JS_JQUERY . '.min.js') . '"></script>';	
 			}
 
+			if(JS_JQUERY_OFFLINE == '1') {
+				$content .= '<script type="text/javascript" src="' . href('/public/javascript/json.js') . '"></script>';
+				$content .= '<script type="text/javascript" src="' . href('/public/javascript/jquery.offline.js') . '"></script>';
+			}
+
 			$content .= "
 				<script type='text/javascript'>
 					var Generatrix = {
