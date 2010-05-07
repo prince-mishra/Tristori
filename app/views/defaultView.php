@@ -32,7 +32,7 @@
 				return $this->endPage();
 	*/
 
-	class ___PAGE_NAME___View extends View {
+	class defaultView extends View {
 
 		public function base() {
 			$this->title("Generatrix");
@@ -42,9 +42,7 @@
 			}');
 
 			$content = '';
-			//$content .= $this->loadSubView('header');
-			//$content .= $this->loadSubView('body');
-			//$contnet .= $this->loadSubView('footer');
+			$content .= $this->loadSubView('defaultBase');
 
 			$this->getBody()->appendContent($content);
 

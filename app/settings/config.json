@@ -7,7 +7,7 @@
 	"time-zone"							: "Asia/Calcutta",
 	"min-php-version"				: "5.2.0",
 
-	"default-controller"		:	"home",
+	"default-controller"		:	"default",
 	"dtd-type"							: "transitional",
 	"debug-values"					: "false",
 	"debug-queries"					: "false",
