@@ -670,7 +670,7 @@
 						href: function(path) { return this.basepath + path; },
 						loading: function(where) { $(where).html(\"<img src='\" + this.href('/images/gears.gif') + \"' />\"); },
 						timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
-						rand: function(max) { return Math.ceil(Math.random() * max); }
+						rand: function(max) { return Math.ceil(Math.random() * max); },
 						trim: function(str) { str.replace(/^\s*/, \"\").replace(/\s*$/, \"\"); }
 					};
 				</script>
