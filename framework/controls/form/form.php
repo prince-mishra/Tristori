@@ -44,6 +44,7 @@
 					$value = checkArray($row, 'value') ? $row['value'] : false;
 					$required = checkArray($row, 'required') ? $row['required'] : false;
 					$selected = checkArray($row, 'selected') ? $row['selected'] : false;
+					$subtext = checkArray($row, 'subtext') ? $row['subtext'] : false;
 
 					if(!$type || !$label) {
 						$label = ($label) ? $label : 'No label set';
@@ -52,16 +53,16 @@
 						switch($type) {
 							case 'text':
 							case 'password':
-								$this->rowText($label, $value, $required, $type);
+								$this->rowText($label, $value, $subtext, $required, $type);
 								break;
 							case 'select':
-								$this->rowSelect($label, $value, $required, $selected);
+								$this->rowSelect($label, $value, $subtext, $required, $selected);
 								break;
 							case 'checkbox':
-								$this->rowCheckbox($label, $value, $required, $selected);
+								$this->rowCheckbox($label, $value, $subtext, $required, $selected);
 								break;
 							case 'html':
-								$this->rowHtml($label, $value, $required);
+								$this->rowHtml($label, $value, $subtext, $required);
 								break;
 							case 'submit':
 								$this->rowSubmit($label, $value, $required);
@@ -70,10 +71,10 @@
 								$this->rowHidden($label, $value, $required);
 								break;
 							case 'textarea':
-								$this->rowTextArea($label, $value, $required);
+								$this->rowTextArea($label, $value, $subtext, $required);
 								break;
 							case 'file':
-								$this->rowFile($label, $value, $required);
+								$this->rowFile($label, $value, $subtext, $required);
 								break;
 							default:
 								display('Type "' . $type . '" is not supported');
@@ -108,7 +109,7 @@
 			echo $html;
 		}
 
-		private function rowHtml($label, $value, $required) {
+		private function rowHtml($label, $value, $subtext, $required) {
 			$html = '';
 			$html .= '<div class="row">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
@@ -116,15 +117,19 @@
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size. '" ' . $this->noFloat() . '>';
 			$termValue = isset($this->terms[$value]) ? $this->terms[$value] : $value;
+			$html .= '		<div class="form-input-html">';
 			$html .= '		' . $termValue;
-			if($termValue != '') $html .= '<br />&nbsp;';
+			$html .= '		</div>';
+			$html .= '		<div class="form-input-subtext">';
+			$html .= '		' . $subtext;
+			$html .= '		</div>';
 			$html .= '	</div>';
 			if($this->float != 'none') $html .= '	<br clear="all" />';
 			$html .= '</div>';
 			echo $html;
 		}
 
-		private function rowCheckbox($label, $value, $required, $selected) {
+		private function rowCheckbox($label, $value, $subtext, $required, $selected) {
 			$html = '';
 			$html .= '<div class="row">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
@@ -134,16 +139,21 @@
 			}
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size. '" ' . $this->noFloat() . '>';
-			$html .= '		<input type="checkbox" id="' . $this->sanitize($value) . '" name="' . $this->sanitize($value) . '" value="" ' . $selected . ' class="" />';
+			$html .= '		<div class="form-input-html">';
+			$html .= '			<input type="checkbox" id="' . $this->sanitize($value) . '" name="' . $this->sanitize($value) . '" value="" ' . $selected . ' class="" />';
 			$termValue = (checkArray($this->terms, $value)) ? $this->terms[$value] : $value;
-			$html .= '		' . $termValue . '<br />&nbsp;';
+			$html .= '			' . $termValue;
+			$html .= '		</div>';
+			$html .= '		<div class="form-input-subtext">';
+			$html .= '			' . $subtext;
+			$html .= '		</div>';
 			$html .= '	</div>';
 			if($this->float != 'none') $html .= '	<br clear="all" />';
 			$html .= '</div>';
 			echo $html;
 		}
 
-		private function rowSelect($label, $values, $required, $selected) {
+		private function rowSelect($label, $values, $subtext, $required, $selected) {
 			$html = '';
 			$html .= '<div class="row">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
@@ -153,19 +163,24 @@
 			}
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size. '" ' . $this->noFloat() . '>';
-			$html .= '		<select id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" class="form-input-text input-' . $this->size . '">';
+			$html .= '		<div>';
+			$html .= '			<select id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" class="form-input-text input-' . $this->size . '">';
 			foreach($values as $key => $value) {
 				$select_this = ($value == $selected) ? ' SELECTED ' : '';
-				$html .= '		<option ' . $select_this . ' value="' . $value . '">' . $key . '</option>';
+				$html .= '			<option ' . $select_this . ' value="' . $value . '">' . $key . '</option>';
 			}
-			$html .= '		</select>';
+			$html .= '			</select>';
+			$html .= '		</div>';
+			$html .= '		<div class="form-input-subtext">';
+			$html .= '			' . $subtext;
+			$html .= '		</div>';
 			$html .= '	</div>';
 			if($this->float != 'none') $html .= '	<br clear="all" />';
 			$html .= '</div>';
 			echo $html;
 		}
 
-		private function rowFile($label, $value, $required) {
+		private function rowFile($label, $value, $subtext, $required) {
 			$html = '';
 			$html .= '<div class="row">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
@@ -175,18 +190,23 @@
 			}
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
-			$html .= '		<input type="file" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="" class="form-input-text input-' . $this->size . '" />';
+			$html .= '		<div>';
+			$html .= '			<input type="file" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="" class="form-input-text input-' . $this->size . '" />';
 			if($value != '') {
 				$actual_value = checkArray($this->terms, $value) ? $this->terms[$value] : $value;
 				$html .= '		<br />' . $actual_value;
 			}
+			$html .= '		</div>';
+			$html .= '		<div class="form-input-subtext">';
+			$html .= '			' . $subtext;
+			$html .= '		</div>';
 			$html .= '	</div>';
 			if($this->float != 'none') $html .= '	<br clear="all" />';
 			$html .= '</div>';
 			echo $html;
 		}
 
-		private function rowText($label, $value, $required, $type) {
+		private function rowText($label, $value, $subtext, $required, $type) {
 			$html = '';
 			$html .= '<div class="row">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
@@ -196,14 +216,19 @@
 			}
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
-			$html .= '		<input type="' . $type . '" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="' . stripslashes(urldecode($value)) . '" class="form-input-text input-' . $this->size . '" />';
+			$html .= '		<div>';
+			$html .= '			<input type="' . $type . '" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="' . stripslashes(urldecode($value)) . '" class="form-input-text input-' . $this->size . '" />';
+			$html .= '		</div>';
+			$html .= '		<div class="form-input-subtext">';
+			$html .= '			' . $subtext;
+			$html .= '		</div>';
 			$html .= '	</div>';
 			if($this->float != 'none') $html .= '	<br clear="all" />';
 			$html .= '</div>';
 			echo $html;
 		}
 
-		private function rowTextArea($label, $value, $required) {
+		private function rowTextArea($label, $value, $subtext, $required) {
 			$html = '';
 			$html .= '<div class="row">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
@@ -213,7 +238,12 @@
 			}
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
-			$html .= '		<textarea id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" class="form-input-textarea input-' . $this->size . '">' . stripslashes(urldecode($value)) . '</textarea>';
+			$html .= '		<div>';
+			$html .= '			<textarea id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" class="form-input-textarea input-' . $this->size . '">' . stripslashes(urldecode($value)) . '</textarea>';
+			$html .= '		</div>';
+			$html .= '		<div class="form-input-subtext">';
+			$html .= '			' . $subtext;
+			$html .= '		</div>';
 			$html .= '	</div>';
 			if($this->float != 'none') $html .= '	<br clear="all" />';
 			$html .= '</div>';
