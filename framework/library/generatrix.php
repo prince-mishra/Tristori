@@ -1792,7 +1792,7 @@ Welcome to the Generatrix help. You can use any of the following options
 	}
 
 	function sanitize($term) {
-		return preg_replace('/-+/', '-', trim(preg_replace('/[^a-zA-Z0-9]/', '-', trim($term) ) ) );
+		return preg_replace('/-+/', '_', trim(preg_replace('/[^a-zA-Z0-9]/', '_', trim(strtolower(str_replace('_', ' ', $term))) ) ) );
 	}
 
 	function add_file_and_line($file, $line) {
