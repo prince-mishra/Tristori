@@ -1724,18 +1724,18 @@
 			if(!$this->isCli())
 				return;
 
-			exec('mysqldump ' . DATABASE_NAME . ' -u' . DATABASE_USER . ' -p', $output);
+			exec('mysqldump ' . DATABASE_NAME . ' -u' . DATABASE_USER . ' -p' . DATABASE_PASS . ' > ' . path('/app/model/' . DATABASE_NAME . '.sql'), $output);
 			$dump = implode("\n", $output);
+			display($dump);
+		}
 
-			if(trim($dump) != '') {
-				$file = new File();
-				$file->write(
-					'/app/model/' . DATABASE_NAME . '.sql',
-					$dump
-				);
-			} else {
-				display_error('FAILD : Could not connect to database server');
-			}
+		public function importDb() {
+			if(!$this->isCli())
+				return;
+
+			exec('mysql -u' . DATABASE_USER . ' -p' . DATABASE_PASS . ' ' . DATABASE_NAME . ' < ' . path('/app/model/' . DATABASE_NAME . '.sql'), $output);
+			$dump = implode("\n", $output);
+			display($dump);
 		}
 	}
 
@@ -1754,6 +1754,7 @@ Welcome to the Generatrix help. You can use any of the following options
 3. ./generatrix addPage test             (to add a new controller testController and view testView with base functions)
 4. ./generatrix prepareModel             (to create the model file for use)
 5. ./generatrix exportDb                 (to export the complete database)
+6. ./generatrix importDb								 (to import the exported database)
 -----------------------------------------------------------------------------------------------------------------------
 			");
 		}
@@ -1761,6 +1762,7 @@ Welcome to the Generatrix help. You can use any of the following options
 		public function addPage() { }
 		public function prepareModel() { }
 		public function exportDb() { }
+		public function importDb() { }
 	}
 
 
