@@ -118,7 +118,7 @@
 			$html .= '	<div class="element-' . $this->size. '" ' . $this->noFloat() . '>';
 			$termValue = isset($this->terms[$value]) ? $this->terms[$value] : $value;
 			$html .= '		<div class="form-input-html">';
-			$html .= '		' . $termValue;
+			$html .= '		' . prepare(urldecode($termValue));
 			$html .= '		</div>';
 			$html .= '		<div class="form-input-subtext">';
 			$html .= '		' . $subtext;
@@ -194,7 +194,7 @@
 			$html .= '			<input type="file" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="" class="form-input-text input-' . $this->size . '" />';
 			if($value != '') {
 				$actual_value = checkArray($this->terms, $value) ? $this->terms[$value] : $value;
-				$html .= '		<br />' . $actual_value;
+				$html .= '		<br />' . urldecode($actual_value);
 			}
 			$html .= '		</div>';
 			$html .= '		<div class="form-input-subtext">';
@@ -217,6 +217,7 @@
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		<div>';
+			$value = str_replace('%26lt%3Bbr%26gt%3B', urlencode("\n"), $value);
 			$html .= '			<input type="' . $type . '" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="' . stripslashes(urldecode($value)) . '" class="form-input-text input-' . $this->size . '" />';
 			$html .= '		</div>';
 			$html .= '		<div class="form-input-subtext">';
@@ -239,6 +240,7 @@
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		<div>';
+			$value = str_replace('%26lt%3Bbr%26gt%3B', urlencode("\n"), $value);
 			$html .= '			<textarea id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" class="form-input-textarea input-' . $this->size . '">' . stripslashes(urldecode($value)) . '</textarea>';
 			$html .= '		</div>';
 			$html .= '		<div class="form-input-subtext">';
