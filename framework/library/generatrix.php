@@ -2,6 +2,8 @@
 
 	define('DISK_ROOT', str_replace('framework/library/generatrix.php', '', __FILE__));
 
+	require_once(DISK_ROOT . 'framework/library/utils.php');
+
 	class Generatrix {
 		private $request;
 		private $cli;
