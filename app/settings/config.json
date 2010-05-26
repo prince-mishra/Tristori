@@ -24,8 +24,6 @@
 	"cache-pages"						: "false",
 	"cache-pages-time"			: "5",
 
-	"js-jquery-offline"			: "true",
-
 	"js-jquery"							: "1.4.2",
 	"js-jqueryui"						: "",
 	"js-prototype"					: "",

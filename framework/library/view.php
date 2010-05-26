@@ -150,7 +150,6 @@
 			if(!$this->added_generated_css) {
 				$head = $this->getHead();
 				$head->appendContent(
-					$this->addCss('/public/style/generatrix.css') .
 					$this->loadGenerated() .
 					$this->addCss('/public/style/generatrix-ie.css', true)
 				);
@@ -169,6 +168,10 @@
 			if(JS_JQUERY_OFFLINE == '1') {
 				$content .= '<script type="text/javascript" src="' . href('/public/javascript/json.js') . '"></script>';
 				$content .= '<script type="text/javascript" src="' . href('/public/javascript/jquery.offline.js') . '"></script>';
+			}
+
+			if(JS_COOKIE == '1') {
+				$content .= '<script type="text/javascript" src="' . href('/public/javascript/jquery.cookie.min.js') . '"></script>';
 			}
 
 			$content .= "
