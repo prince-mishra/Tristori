@@ -19,7 +19,7 @@
 			}
 			$this->connection = curl_init();
 			$this->setUserAgent('Generatrix 0.47');
-			$this->setUserCookie('/app/cache/cookies/curl-cookie.txt');
+			$this->setUserCookie('/app/cache/curl-cookie.txt');
 		}
 
 		public function __destruct() {
@@ -76,8 +76,8 @@
 		public function setUserCookie($path) {
 			if(!file_exists(path($path))) {
 				$file = new File();
-				if(perms('/app/cache/cookies/') != '777') {
-					display_system('The path to the file ' . path($path) . ' is not writable.<br />Please enter chmod -R 777 ' . path('/app/cache/cookies/') . ' on your terminal to fix this.');
+				if(perms('/app/cache/') != '777') {
+					display_system('The path to the file ' . path($path) . ' is not writable.<br />Please enter chmod -R 777 ' . path('/app/cache/') . ' on your terminal to fix this.');
 				} else {
 					$file->write($path, ' ');
 					chmod(path($path), 0755);

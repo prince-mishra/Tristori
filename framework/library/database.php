@@ -113,33 +113,7 @@
       }
 
       $results;
-			// If caching results, check if the result is given in the database
-      if(CACHE_DB) {
-				// All cache files are located in /app/cache/database
-				// All cache files have the extension .cac
-        $file_name = '/app/cache/database/' . md5($sql) . '.cac';
-        if(file_exists(path($file_name))) {
-					// Check if the file was created in the time duration
-          if((time() - filemtime(path($file_name))) > CACHE_DB_TIME) {
-						$results = $this->createArray($query_type, mysql_query($sql));
-						// Serialize results and write to a file
-            $this->file->write($file_name, serialize($results));
-            display('File was old, updating it');
-          } else {
-						// Get the results from a file and unserialize them
-            $results = unserialize($this->file->read($file_name));
-            $cached_query = true;
-            display('Found the right file, showing data from file');
-          }
-        } else {
-					// If the results are not in the cahce, create an entry
-					$results = $this->createArray($query_type, mysql_query($sql));
-          $this->file->write($file_name, serialize($results));
-          display('File did not exist, creating it');
-        }
-      } else {
-				$results = $this->createArray($query_type, mysql_query($sql));
-      }
+			$results = $this->createArray($query_type, mysql_query($sql));
 
 			// If debugging is one, display the time required in the query string
       if($this->debug) {

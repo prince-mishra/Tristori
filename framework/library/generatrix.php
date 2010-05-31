@@ -35,12 +35,6 @@
 		}
 
 		public function __destruct() {
-			// If values are to be debugged, update the caching status
-			if(DEBUG_VALUES) {
-				if(CACHE_PAGES) {
-					display_system("[" . round( (1000 * ( microtime(true) - $this->start_time )), 2) . " ms] Caching Status : " . $this->is_page_cached);
-				}
-			}
 		}
 
 		public function setDatabase($database) {
@@ -62,30 +56,6 @@
 		}
 
 		private function checkCache() {
-			// Check if cache exists and if the page requested is available in the cache
-			$this->file = new File();
-
-			if((perms('/app/cache') != '777') || (perms('/app/cache/database') != '777') || (perms('/app/cache/pages') != '777')) {
-				display_system('The cache is <strong>not writable</strong>. You can fix it by running <strong>chmod -R 777 ' . path('/app/cache') . '</strong>');
-			}
-
-			// If were are caching pages and there are no post values set then try to get the file from the cache
-			// (We check for $_POST because if say a search form is sending post values, we don't want to show the cached page)
-			if(CACHE_PAGES && (count($_POST) == 0)) {
-				// If url is defined (from .htaccess) use that, for the home page, use index
-				$file_name = isset($_GET['url']) ? md5($_GET['url']) : md5('index');
-				// All cached files are located in cache/pages and have the extension .cac
-				$file_name = '/app/cache/pages/' . $file_name . '.cac';
-				if(file_exists(path($file_name))) {
-					// Check if the file was created within the time duration
-					if((time() - filemtime(path($file_name))) < CACHE_PAGES_TIME) {
-						$this->is_page_cached = 'CACHED';
-						echo $this->file->read($file_name);
-						return true;
-					}
-				}
-			}
-			// File not available in cache, run the code
 			return false;
 		}
 
@@ -171,7 +141,7 @@
 							// Cache the page, if caching is turned on
 							if(CACHE_PAGES && (count($_POST) == 0)) {
 								$file_name = isset($_GET['url']) ? md5($_GET['url']) : md5('index');
-								$file_name = '/app/cache/pages/' . $file_name . '.cac';
+								$file_name = '/app/cache/' . $file_name . '.cac';
 								$this->file->write($file_name, $final_page);
 							}
 						} else {
