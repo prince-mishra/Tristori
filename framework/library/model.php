@@ -17,10 +17,6 @@
 			$this->is_join = false;
 		}
 
-		private function escapeString($string) {
-			return str_replace('"', '\"', str_replace("'", "\'", $string));
-		}
-
 		public function construct($database, $name, $columns) {
 			$this->name = $name;
 			$this->database = $database;
@@ -44,6 +40,7 @@
 					$key_type = $this->columns[$key];
 					switch($key_type) {
 						case 'text':
+							$value = str_replace('\r\n', '<br>', $value);
 							$vals[] = mysql_real_escape_string(htmlentities($value), $this->database->getConnection());
 							break;
 						case 'int':
@@ -94,6 +91,7 @@
 		public function update($columns, $condition = '') {
 			$updates = array();
 			foreach($columns as $key => $value) {
+				$value = str_replace('\r\n', '<br>', $value);
 				$updates[] = ' `' . $key . '` = "' . mysql_real_escape_string(stripslashes(htmlentities($value)), $this->database->getConnection()) . '" ';
 			}
 			$sql = 'UPDATE ' . $this->name . ' SET ' . implode(', ', $updates) . ' ' . $condition;
