@@ -1,7 +1,7 @@
 <?php
 
-  function sanitize($term) {
-    return preg_replace('/-+/', '_', trim(preg_replace('/[^a-zA-Z0-9]/', '_', trim(strtolower(str_replace('_', ' ', $term))) ) ) );
+  function sanitize($term, $separator = '_') {
+    return preg_replace('/-+/', $separator, trim(preg_replace('/[^a-zA-Z0-9]/', $separator, trim(strtolower(str_replace($separator, ' ', $term))) ) ) );
   }
 
   // Creates a link based on the APPLICATION PATH defined in /app/settings/config.json
@@ -19,25 +19,51 @@
 
   // Calculate time in readable format
   function getReadableTime($seconds) {
+    $mult = 1;
+    if($seconds < 0) {
+      $mult = -1;
+      $seconds = $seconds * (-1);
+    }
     if($seconds < 60) {
-      return $seconds . " seconds";
+      if($seconds == 1)
+        return ($seconds * $mult) . " second";
+      return ($seconds * $mult) . " seconds";
     }
     $minutes = round($seconds / 60);
     if($minutes < 60) {
-      return $minutes . " minutes";
+      if($minutes == 1)
+        return ($minutes * $mult) . " minute";
+      return ($minutes * $mult) . " minutes";
     }
     $hours = round($minutes / 60);
     if($hours < 24) {
-      return $hours . " hours";
+      if($hours == 1)
+        return ($hours * $mult) . " hour";
+      return ($hours * $mult) . " hours";
     }
     $days = round($hours / 24);
-    return $days . " days";
+    if($days < 30) {
+      if($days == 1)
+        return ($days * $mult) . " day";
+      return ($days * $mult) . " days";
+    }
+    $months = round($days / 30);
+    if($months < 12) {
+      if($months == 1)
+        return ($months * $mult) . " month";
+      return ($months * $mult) . " months";
+    }
+    $years = round($months / 12);
+    if($years == 1)
+      return ($years * $mult) . " year";
+    return ($years * $mult) . " years";
   }
+
 
   // Use timthumb to create smaller iamges
   function image($path, $width = '', $height = '') {
     if(check($path)) {
-      return href('/framework/external/timthumb/timthumb.php?src=' . href($path) . '&w=' . $width . '&h=' . $height);
+      return href('/public/scripts/timthumb.php?src=' . href($path) . '&w=' . $width . '&h=' . $height);
     } else {
       display_error('The image ' . href($path) . ' was not found');
     }

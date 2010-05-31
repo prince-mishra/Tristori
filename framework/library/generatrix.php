@@ -304,9 +304,6 @@
 					}
 				}
 			}
-
-			// Also require the phpmailer control
-			require_once(DISK_ROOT . 'framework/external/phpmailer/class.phpmailer.php');
 		}
 
 		public function getPost() {

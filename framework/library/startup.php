@@ -110,7 +110,6 @@
 
 		// Find out where the file is. path() will not work yet because config is not loaded
 		// Load the default values from config.json.defaults
-		require_once(DISK_ROOT . 'framework/external/json/json.php');
 		$config_defaults_file = DISK_ROOT . 'app/settings/config.json.defaults';
 		$config_defaults = (array) json_decode(file_get_contents($config_defaults_file));
 
