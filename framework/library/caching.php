@@ -24,6 +24,11 @@
 		public function get($key, $time = '') {
 			$time = ($time != '') ? $time : $this->duration;
 			$file_name = $this->getFileName($key);
+
+			if(!file_exists($file_name) || is_dir($file_name)) {
+				return false;
+			}
+
 			if( (time() - filemtime($file_name)) > $time ) {
 				return false;
 			} else {

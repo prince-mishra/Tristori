@@ -21,8 +21,7 @@
 	function display_error($message, $file = '', $line = '') { display_message($message, $file, $line, 'error'); } 
 	function display_system($message, $file = '', $line = '') { display_message('SYSTEM: ' . $message, $file, $line, 'system'); }
 	function display_404 ($message, $file = '', $line = '') { 
-		header("HTTP/1.1 404 Not Found");
-		display_message($message, $file, $line, 'error');  
+		echo "<div style='width: 600px; margin: 150px auto; text-align: center; background-color: #F7F7F7; border: 10px solid #EEEEEE; padding: 40px 0px; font-family: Georgia; Arial, sans-serif;'>This page does not exist</div>";
 	}
 
 	function add_file_and_line($file, $line) {

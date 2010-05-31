@@ -1,5 +1,5 @@
 {
-	"application-root"		: "http://localhost/generatrix/",
+	"application-root"		: "http://localhost:8080/Generatrix/",
 
 	"application-name"		:	"Generatrix",
 	"application-email"		: "admin@site.com",
@@ -15,11 +15,11 @@
 
 	"database-host"				:	"localhost",
 	"database-user"				:	"root",
-	"database-pass"				: "",
+	"database-pass"				: "root",
 	"database-name"				:	"generatrix",
 	"database-prefix"			: "gx_",
 
-	"cache-time"					: "3600",
+	"cache-time"					: "15",
 
 	"js-jquery"						: "1.4.2",
 	"js-jqueryui"					: "",

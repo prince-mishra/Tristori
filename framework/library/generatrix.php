@@ -18,18 +18,13 @@
 		private $method;
 
 		private $mail;
-
 		private $file;
-
-		private $is_page_cached;
-
-		private $start_time;
+		private $cache;
 
 		public function __construct($argv = '') {
-			$this->is_page_cached = 'NOT CACHED';
-			$this->start_time = microtime(true);
 			$this->debugValues();
 			$this->bootstrap($argv);
+			$this->cache = new Cache();
 			set_error_handler('handle_errors');
 			$this->handleRequest();
 		}
@@ -56,7 +51,20 @@
 		}
 
 		private function checkCache() {
-			return false;
+			$url = APPLICATION_ROOT . $_GET['url'];
+			$groups = array();
+			foreach($_GET as $key => $value) {
+				if($key != 'url') $groups[] = "$key=$value";
+			}
+			if(count($groups) > 0) {
+				$url .= ('?' . implode('&', $groups));
+			}
+
+			if(count($_POST) > 0) return false;
+
+			$cached_output = $this->cache->get($url);
+			echo $cached_output;
+			return ($cached_output == '') ? false : true;
 		}
 
 		public function getController() {
@@ -137,13 +145,6 @@
 								}
 							}
 							echo $final_page;
-
-							// Cache the page, if caching is turned on
-							if(CACHE_PAGES && (count($_POST) == 0)) {
-								$file_name = isset($_GET['url']) ? md5($_GET['url']) : md5('index');
-								$file_name = '/app/cache/' . $file_name . '.cac';
-								$this->file->write($file_name, $final_page);
-							}
 						} else {
 							display_404('The method <strong>"'. $controller_method . '"</strong> in class <strong>"'. $view_class .'"</strong> does not exist');
 						}
