@@ -11,10 +11,13 @@
 		private $is_join;
 		private $join;
 
+		private $cache;
+
 		public function __construct() {
 			$this->columns = array();
 			$this->columns_name = array();
 			$this->is_join = false;
+			$this->cache = new Cache();
 		}
 
 		public function construct($database, $name, $columns) {
@@ -71,10 +74,10 @@
 			return $this->database->query($sql);
 		}
 
-		public function select($columns, $condition = '') {
+		public function select($columns, $condition = '', $cached = 0) {
+			$sql = '';
 			if(!$this->is_join) {
 				$sql = 'SELECT ' . $columns . ' FROM ' . $this->name . ' ' . $condition;
-				return $this->database->query($sql);
 			} else {
 				$columns = explode(',', $columns);
 				foreach($columns as $column) {
@@ -84,8 +87,11 @@
 				}
 				$join_columns = implode(', ', $cols);
 				$sql = 'SELECT ' . $join_columns . ' FROM ' . $this->join . ' ' . $condition;
-				return $this->database->query($sql);
 			}
+
+			$cached_output = ($cached != 0) ? $this->cache->get($sql, $count) : false;
+			$output = ($cached_output === false) ? $this->database->query($sql) : $cached_output;
+			return $output;
 		}
 
 		public function update($columns, $condition = '') {
