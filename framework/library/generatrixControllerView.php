@@ -5,6 +5,7 @@
 	//
 
 	require_once(DISK_ROOT . 'framework/library/controller.php');
+	require_once(DISK_ROOT . 'framework/library/view.php');
 
 	class generatrixController extends Controller {
 		private function isCli() {

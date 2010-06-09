@@ -3,6 +3,7 @@
 	define('DISK_ROOT', str_replace('framework/library/generatrix.php', '', __FILE__));
 
 	require_once(DISK_ROOT . 'framework/library/utils.php');
+	require_once(DISK_ROOT . 'framework/library/startup.php');
 
 	class Generatrix {
 		private $request;
@@ -51,7 +52,8 @@
 		}
 
 		private function checkCache() {
-			$url = APPLICATION_ROOT . $_GET['url'];
+			$get_url = isset($_GET['url']) ? $_GET['url'] : '';
+			$url = APPLICATION_ROOT . $get_url;
 			$groups = array();
 			foreach($_GET as $key => $value) {
 				if($key != 'url') $groups[] = "$key=$value";
